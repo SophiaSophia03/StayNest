@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StayNest - A cozy & secure place to stay</title>
+</head>
+<body>
+  <h1>All Listings</h1>
+  <ul>
+  <% for(let listing of allListings){ %>
+    <li><a href="http://localhost:8080/listings/<%=listing._id%>"><%=listing.title%></a></li>
+  <%}%>
+</ul>
+</body>
+</html>

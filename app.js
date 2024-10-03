@@ -1,6 +1,12 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const Listing = require("./models/listing.js");
+const path = require("path");
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname,"views"));
+app.use(express.urlencoded({extended:true}));
 
 main().then((res) => {
   console.log("Connection successful");
@@ -10,6 +16,12 @@ main().then((res) => {
 async function main(){
   await mongoose.connect('mongodb://127.0.0.1:27017/StayNest');
 }
+
+// Index route
+app.get("/listings",async (req,res) => {
+  const allListings = await Listing.find({});
+  res.render("./listings/index.ejs", {allListings});
+});
 
 app.get("/", (req,res) => {
   res.send("Hi, I am root");
