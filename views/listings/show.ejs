@@ -23,14 +23,15 @@
   <div class="review">
     <hr>
     <h4>Leave a review</h4>
-    <form action="/listings/<%=listing._id%>/reviews" method="post">
+    <form action="/listings/<%=listing._id%>/reviews" method="post" novalidate class="needs-validation">
       <div class="mb-3 mt-3">
         <label for="rating" class="form-label">Rating</label>
         <input type="range" class="form-range" min="1" max="5" id="rating" name="review[rating]">
       </div>
       <div class="mb-3">
         <label for="comment" class="form-label">Comments</label>
-        <textarea rows="5" cols="30" id="comment" name="review[comment]" class="form-control"></textarea>
+        <textarea rows="5" cols="30" id="comment" name="review[comment]" class="form-control" required></textarea>
+        <div class="invalid-feedback">Please add a comment for review</div>
       </div>
       <button class="btn btn-ouline-dark mb-4">Submit</button>
     </form>
