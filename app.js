@@ -123,9 +123,9 @@ app.get("/", (req, res) => {
   res.send("Hi, I am root");
 });
 
-// app.all("*", (req,res,next) => {
-//   next(new ExpressError(404, "Page not found" ))
-// })
+app.all("*", (req,res,next) => {
+  next(new ExpressError(404, "Page not found" ))
+})
 
 app.use((err, req, res, next) => {
   let{status = 500,message = "Something went wrong"} = err;
