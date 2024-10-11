@@ -41,10 +41,13 @@
   <%for(review of listing.reviews){%>
     <div class="card col-5 mb-4 ms-5 mt-3">
       <div class="card-body">
-        <h6 class="card-title">Sophia</h6>
+        <h6 class="card-title mt-2">Sophia</h6>
         <p class="card-text"><%=review.comment %></p>
         <h6 class="card-subtitle mb-2 text-body-secondary"><%=review.rating %> &#9733;</h6>
       </div>
+      <form action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE" class="mb-3" method="POST">
+        <button type="submit" class="btn btn-sm button">Delete</button>
+      </form>
     </div>
   <%}%>
 </div>
