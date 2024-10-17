@@ -15,11 +15,11 @@ router
     wrapAsync(listingController.index))
   .post(
     isLoggedIn,
-    // validateListing,
-    upload.single('listing[image]'),
+    upload.single("listing[image]"),
+    validateListing,
     wrapAsync(listingController.createListing)
   )
-  .post(upload.single('listing[image]'),(req,res) => {
+  .post(upload.single("listing[image]"),(req,res) => {
     res.send(req.file);
   });
 
@@ -33,6 +33,7 @@ router
   .put(
     isLoggedIn,
     isOwner,
+    upload.single("listing[image]"),
     validateListing,
     wrapAsync(listingController.updateListing))
   .delete(
