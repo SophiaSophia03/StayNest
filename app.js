@@ -10,6 +10,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const flash =  require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -26,6 +27,8 @@ app.use(express.urlencoded({ extended: true }));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+const dbUrl = process.env.ATLASDB_URL;
+
 main()
   .then((res) => {
     console.log("Connection successful");
@@ -33,11 +36,24 @@ main()
   .catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/StayNest");
+  await mongoose.connect(dbUrl);
 }
 
+const store = MongoStore.create({
+  mongoUrl:dbUrl,
+  crypto:{
+    secret: process.env.SECRET,
+  },
+  touchAfter:1*60*60
+});
+
+store.on("error", () => {
+  console.log("ERROR in Mongo Session Store", err)
+});
+
 const sessionOptions = {
-  secret: "mysecretcode",
+  store,
+  secret: process.env.SECRET,
   resave:false,
   saveUninitialized:true,
   cookie: {
@@ -45,7 +61,7 @@ const sessionOptions = {
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly:true
   }
-}
+};
 
 // app.get("/", (req, res) => {
 //   res.send("Hi, I am root");
