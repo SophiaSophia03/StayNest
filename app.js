@@ -63,10 +63,6 @@ const sessionOptions = {
   }
 };
 
-// app.get("/", (req, res) => {
-//   res.send("Hi, I am root");
-// });
-
 app.use(session(sessionOptions));
 app.use(flash());
 
@@ -92,10 +88,13 @@ app.get("/demouser", async(req,res) => {
   let registeredUser = await User.register(fakeUser,"abcdefg" );
   res.send(registeredUser);
 });
-
+app.get('/', (req, res) => {
+  res.render('./listings/home');
+});
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
+
 
 app.all("*", (req,res,next) => {
   next(new ExpressError(404, "Page not found" ))
